@@ -28,7 +28,7 @@ production : {
     username: 'looper',
     password: '1234567890',
     params: {
-      dialect: 'postgres',
+      dialect: 'mysql',
     logging: false,
     define: {
       underscored: true,
@@ -41,7 +41,7 @@ development : {
     username: 'looper',
     password: '1234567890',
     params: {
-      dialect: 'postgres',
+      dialect: 'mysql',
       logging: (sql) => {
         logger.info(`[${new Date()}] ${sql}`);
       },
@@ -57,11 +57,12 @@ jwt : {
 },
 
 sessions : {
-   host: 'localhost',// Host name for database connection.
+    host: 'localhost',// Host name for database connection.
+    secret: '$uP3rUltr@Meg@S3cR3T',
     port: 3306,// Port number for database connection.
-    user: 'session_test',// Database user.
-    password: 'password',// Password for the above database user.
-    database: 'session_test',// Database name.
+    user: 'looper',// Database user.
+    password: '1234567890',// Password for the above database user.
+    database: 'xblog',// Database name.
     checkExpirationInterval: 900000,// How frequently expired sessions will be cleared; milliseconds.
     expiration: 86400000,// The maximum age of a valid session; milliseconds.
     createDatabaseTable: true,// Whether or not to create the sessions database table, if one does not already exist.

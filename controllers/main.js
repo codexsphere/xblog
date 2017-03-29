@@ -3,7 +3,7 @@ const Users  = require('../db').Users;
 module.exports = {
   getHomePage : (req, res) => {
       res.status(200);
-      res.render("index", {title: "EXPRESS-SEQUELIZE"})
+      res.render("index", {title: "EXPRESS-SEQUELIZE", user: req.user})
   },
   getTheme : (req, res) => {
       res.status(200);

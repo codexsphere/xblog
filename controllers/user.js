@@ -2,6 +2,9 @@
 const User  = require('../db').models.User;
 
 module.exports = {
+  LoginFBReturn:(req, res) => {
+    
+  },
   getUsers : (req, res) => {
     var id = 0;
     if (req.user) {
