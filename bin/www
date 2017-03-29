@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('ebpls:server');
+var debug = require('debug')('server');
 var debugSql = require('debug')('express-sequelize');
 var http = require('http');
 var db = require('../db');

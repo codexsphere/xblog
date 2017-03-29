@@ -1,4 +1,5 @@
 var express = require('express');
+var expressValidator = require('express-validator');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -43,6 +44,7 @@ passport.deserializeUser(function(obj, cb) {
 });
 
 var app = express();
+var db = require('./db')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -50,15 +52,15 @@ app.set('view engine', 'ejs');
 
 const env = process.env.NODE_ENV;
 if (!env || env == 'development') {
-	// app.use(logger('dev'));
+	app.use(logger('dev'));
 	app.set('json spaces', 4);
-	app.use(logger('common', {
-		stream: {
-		  write: (message) => {
-		    config.logger.info(message);
-		  },
-		},
-	}));
+	// app.use(logger('common', {
+	// 	stream: {
+	// 	  write: (message) => {
+	// 	    config.logger.info(message);
+	// 	  },
+	// 	},
+	// }));
 }
 
 
@@ -85,16 +87,31 @@ app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
 app.use(cookieParser());
 
 var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
-var db = require('./db')
 var session = require('express-session');
 // initalize sequelize with session store
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 app.use(session({
   secret: 'keyboard cat',
-			saveUninitialized: true,
+			saveUninitialized: false,
   store: new SequelizeStore({
     db: db.sequelize
   }),

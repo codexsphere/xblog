@@ -7,6 +7,14 @@ module.exports = (sequelize, DataType) => {
       primaryKey: true,
       autoIncrement: true,
     },
+    firstname: {
+      type: DataType.STRING(100),
+      allowNull: true,
+    },
+    lastname: {
+      type: DataType.STRING(100),
+      allowNull: true,
+    },
     name: {
       type: DataType.STRING,
       allowNull: false,
@@ -28,6 +36,21 @@ module.exports = (sequelize, DataType) => {
       validate: {
         notEmpty: true,
       },
+    },
+    fb_id: {
+      type: DataType.STRING,
+      unique: true,
+      allowNull: true,
+    },
+    google_id: {
+      type: DataType.STRING,
+      unique: true,
+      allowNull: true,
+    },
+    twitter_id: {
+      type: DataType.STRING,
+      unique: true,
+      allowNull: true,
     },
   }, {
     hooks: {

@@ -9,6 +9,7 @@ var User = require('./controllers/user.js');
 var Main = require('./controllers/main.js');
 // var Login = require('./controllers/login.js');
 
+var UserService = require('./services/user.js');
 
 //fb login
 // router.get('/login/facebook/return', User.LoginFBReturn);
@@ -29,6 +30,7 @@ router.get('/login/facebook',  passport.authenticate('facebook'));
 router.get('/login/facebook/return',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
+
     res.redirect('/');
   });
 

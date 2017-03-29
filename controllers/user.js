@@ -1,10 +1,16 @@
 'use strict'
 const User  = require('../db').models.User;
+const UserService  = require('../services/user');
 
 module.exports = {
-  LoginFBReturn:(req, res) => {
-    
-  },
+  // getUserById : (req, res) => {
+  //   var id = req.params.id || 0;
+  //   UserService.getUserById(id)
+  //   .then(result => res.json(result))
+  //   .catch(error => {
+  //     res.status(412).json({ msg: error.message });
+  //   });
+  // },
   getUsers : (req, res) => {
     var id = 0;
     if (req.user) {
@@ -20,16 +26,30 @@ module.exports = {
       res.status(412).json({ msg: error.message });
     });
   },
+
+
+
   getUserById : (req, res) => {
-    var id = req.params.id || 0;
-    User.findById(id, {
-      attributes: ['id', 'name', 'email'],
-    })
+    var util = require('util');
+    req.checkParams('id', 'Invalid id').isInt();
+    req.getValidationResult().then(function(result) {
+      if (!result.isEmpty()) {
+        res.status(400).send('There have been validation errors: ' + util.inspect(result.array()));
+        console.log(result);
+        return;
+      }
+    });
+
+    var id = req.params.id;
+    UserService.getUserById(id)
     .then(result => res.json(result))
     .catch(error => {
       res.status(412).json({ msg: error.message });
     });
   },
+
+
+
   deleteUser: (req, res) => {
       var id = req.user.id || 0;
     User.destroy({ where: { id: id } })
@@ -38,6 +58,9 @@ module.exports = {
       res.status(412).json({ msg: error.message });
     });
   },
+
+
+
   createUser: (req, res) => {
     User.create(req.body)
     .then(result => res.json(result))
