@@ -7,6 +7,7 @@ var passport = require('passport');
 
 var User = require('./controllers/user.js');
 var Main = require('./controllers/main.js');
+var Admin = require('./controllers/admin.js');
 // var Login = require('./controllers/login.js');
 
 var UserService = require('./services/user.js');
@@ -21,6 +22,7 @@ var UserService = require('./services/user.js');
 //   _json: { name: 'Ace Besmonte', id: '511684829221447' } }
 
 
+router.get('/v1/admin', Admin.getAdminIndex);
 router.get('/', Main.getHomePage);
 router.get('/login',
   function(req, res){

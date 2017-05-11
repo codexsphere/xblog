@@ -10,9 +10,9 @@
     "test": "NODE_ENV=test mocha test/**/*.js"
   },
   "apidoc": {
-    "name": "express-postgres-setup",
+    "name": "xblog-setup",
     "version": "0.1",
-    "description": "express-postgres-setupl setup",
+    "description": "xblog-setup",
     "title": "kickass setup",
     "url": "https://api.test.com"
   },

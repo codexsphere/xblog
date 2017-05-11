@@ -1,10 +1,10 @@
 # xblog
-simple personal blogsite [nodejs + exrpessjs + postgres + sequelize]
+simple personal blogsite [nodejs + exrpessjs + mysql + sequelize]
 
 
 
 TODO
-  session (mysql)
+  session (currently mysql)
   session (redis)
   posts
   posts-collaboration
