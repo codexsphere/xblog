@@ -38,7 +38,7 @@ module.exports = {
           // where: {
           //   userid: id
           // }
-          User.findAll({
+          Post.findAll({
             // attributes: ['id', 'name', 'email'],
           })
           .then(result => {

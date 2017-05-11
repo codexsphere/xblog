@@ -57,14 +57,14 @@
         <div class="col-lg-6">
           <div class="bs-component">
             <div class="list-group">
+
+              <% posts.forEach(function(e) {  %>
               <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading">List group item heading</h4>
-                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                <h4 class="list-group-item-heading"><%= e.title %></h4>
+                <p class="list-group-item-text"><%= e.html %></p>
               </a>
-              <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading">List group item heading</h4>
-                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-              </a>
+              <% }); %>
+
             </div>
           </div>
         </div>
@@ -75,14 +75,6 @@
 
     </div>
   </div>
-
-
-  <% if (!user) { %>
-    <p>Welcome! Please <a href="/login">log in</a>.</p>
-    <% } else { %>
-      <p>Hello, <%= user.username %>. View your <a href="/profile">profile</a>.</p>
-      <% } %>
-
-
-    </body>
-    </html>
+  <p><%= JSON.stringify(posts) %></p>
+</body>
+</html>

@@ -9,7 +9,12 @@ module.exports = {
     req.user = 0;
     var id = 0;
     PostService.getPosts(id)
-    .then((result) => res.json(result))
+    .then((result) => {
+      res.render("admin/index", {
+        posts:result,
+        title:"blog",
+      })
+    })
     .catch(error => {
       res.status(400).json({ msg: error.message });
     });
