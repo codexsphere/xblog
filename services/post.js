@@ -1,6 +1,7 @@
 'use strict'
 const User  = require('../db').models.User;
 const Post  = require('../db').models.Post;
+const History  = require('../db').models.History;
 
 module.exports = {
       getUserById: (id) => {

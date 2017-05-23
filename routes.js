@@ -23,6 +23,10 @@ var UserService = require('./services/user.js');
 
 
 router.get('/v1/admin', Admin.getAdminIndex);
+router.get('/v1/admin/posts/new', Admin.getAdminNewPost);
+
+
+
 router.get('/', Main.getHomePage);
 router.get('/login',
   function(req, res){

@@ -20,13 +20,18 @@ module.exports = {
     });
   },
   getPosts : (req, res) => {
-    req.user = 0;
+    // req.user = 0;
     var id = 0;
     PostService.getPosts(id)
     .then((result) => res.json(result))
     .catch(error => {
       res.status(400).json({ msg: error.message });
     });
+  },
+  getAdminNewPost : (req, res) => {
+    // req.user = 0;
+    var id = 0;
+    res.render("admin/writer", {});
   },
 
 
