@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var helmet = require('helmet');
-var config = require('./config');
+var config = require('config.js');
 var routes = require('./routes');
 
 var passport = require('passport');

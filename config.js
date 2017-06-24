@@ -24,9 +24,9 @@ logger : logger,
 db : {
 production : {
     host: 'localhost',
-    database: 'xblog',
-    username: 'looper',
-    password: '1234567890',
+    database: '',
+    username: '',
+    password: '',
     params: {
       dialect: 'mysql',
     logging: false,
@@ -36,10 +36,10 @@ production : {
   },
 },
 development : {
-    host: '127.0.0.1',
-    database: 'xblog',
-    username: 'looper',
-    password: '1234567890',
+    host: process.env.DB_HOST,
+    database: process.env.DB,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
     params: {
       dialect: 'mysql',
       logging: (sql) => {
@@ -57,12 +57,12 @@ jwt : {
 },
 
 sessions : {
-    host: 'localhost',// Host name for database connection.
+    host: process.env.DB_HOST,
+    database: process.env.DB,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
     secret: '$uP3rUltr@Meg@S3cR3T',
-    port: 3306,// Port number for database connection.
-    user: 'looper',// Database user.
-    password: '1234567890',// Password for the above database user.
-    database: 'xblog',// Database name.
     checkExpirationInterval: 900000,// How frequently expired sessions will be cleared; milliseconds.
     expiration: 86400000,// The maximum age of a valid session; milliseconds.
     createDatabaseTable: true,// Whether or not to create the sessions database table, if one does not already exist.
