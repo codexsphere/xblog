@@ -1,3 +1,4 @@
+require('dotenv').config()
 var express = require('express');
 var expressValidator = require('express-validator');
 var path = require('path');
@@ -7,11 +8,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var helmet = require('helmet');
-var config = require('config.js');
+var config = require('./config.js');
 var routes = require('./routes');
 
 var passport = require('passport');
-var Strategy = require('passport-facebook').Strategy;
+var FBStrategy = require('passport-facebook').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
+var UserDB = require('./db').models.User;
 
 // Configure the Facebook strategy for use by Passport.
 //
@@ -20,27 +23,71 @@ var Strategy = require('passport-facebook').Strategy;
 // behalf, along with the user's profile.  The function must invoke `cb`
 // with a user object, which will be set at `req.user` in route handlers after
 // authentication.
-passport.use(new Strategy({
-    clientID: process.env.CLIENT_ID || '242733366198823',
-    clientSecret: process.env.CLIENT_SECRET || 'eb2e4ee348ed11134015c92143349f19',
-    callbackURL: 'http://localhost:3000/login/facebook/return'
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    // In this example, the user's Facebook profile is supplied as the user
-    // record.  In a production-quality application, the Facebook profile should
-    // be associated with a user record in the application's database, which
-    // allows for account linking and authentication with other identity
-    // providers.
-    return cb(null, profile);
-  }));
+
+// {
+//   usernameField: 'email',
+//   passwordField: 'password',
+//
+// },
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    console.log("emailemailemailemail");
+    console.log(username);
+    console.log(password);
+    UserDB.findAll({where:{username:username}, raw : true})
+    .then((user) => {
+      console.log(user);
+      if (!user) { return done(null, false); }
+      if (!user[0].password == password) { return done(null, false);
+      log("not equal password")}
+      return done(null, user[0])
+    })
+    .catch(error => {
+      return done(error);
+    });
+  }
+));
+
+// passport.use(new FBStrategy({
+//     clientID: process.env.CLIENT_ID || '242733366198823',
+//     clientSecret: process.env.CLIENT_SECRET || 'eb2e4ee348ed11134015c92143349f19',
+//     callbackURL: 'http://localhost:3000/login/facebook/return'
+//   },
+//   function(accessToken, refreshToken, profile, cb) {
+//     // In this example, the user's Facebook profile is supplied as the user
+//     // record.  In a production-quality application, the Facebook profile should
+//     // be associated with a user record in the application's database, which
+//     // allows for account linking and authentication with other identity
+//     // providers.
+//     return cb(null, profile);
+//   }));
+
+
+// passport.serializeUser(function(user, cb) {
+//   cb(null, user);
+// });
+//
+// passport.deserializeUser(function(obj, cb) {
+//   cb(null, obj);
+// });
 
 
 passport.serializeUser(function(user, cb) {
-  cb(null, user);
+  console.log("serializeUser");
+  console.log(user);
+  cb(null, user.id);
 });
 
-passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
+passport.deserializeUser(function(id, cb) {
+  console.log("deserializeUser");
+  console.log(id);
+  UserDB.findById(id)
+  .then(user => {
+    cb(null, user);
+  })
+  .catch(error => {
+    if (error) { return cb(error); }
+  });
 });
 
 var app = express();
@@ -118,6 +165,7 @@ app.use(session({
   resave: false, // we support the touch method so per the express-session docs this should be set to false
   proxy: true // if you do SSL outside of node.
 }))
+
 // Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
 app.use(passport.session());

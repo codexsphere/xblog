@@ -15,12 +15,22 @@ module.exports = (sequelize, DataType) => {
       type: DataType.STRING(100),
       allowNull: true,
     },
-    name: {
+    username: {
       type: DataType.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      allowNull: true,
+    },
+    badlogin: {
+      type: DataType.INTEGER,
+      defaultValue:0
+    },
+    maxbadlogin: {
+      type: DataType.INTEGER,
+      defaultValue:5
+    },
+    ipaddress: {
+      type: DataType.STRING,
+      allowNull: true,
+      defaultValue:null
     },
     password: {
       type: DataType.STRING,
