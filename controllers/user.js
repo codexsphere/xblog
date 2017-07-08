@@ -48,6 +48,9 @@ module.exports = {
     });
   },
 
+
+
+
   getMyProfilePage : (req, res) => {
 
     // var id = req.session;
@@ -66,7 +69,7 @@ module.exports = {
 
 
   deleteUser: (req, res) => {
-      var id = req.user.id || 0;
+    var id = req.user.id || 0;
     User.destroy({ where: { id: id } })
     .then(result => res.sendStatus(204))
     .catch(error => {
@@ -77,7 +80,7 @@ module.exports = {
 
 
   getLoginPage: (req, res) => {
-      res.render('login');
+    res.render('login');
   },
 
   postLogin: (req, res) => {
@@ -85,29 +88,29 @@ module.exports = {
 
 
     // passport.authenticate('local', { failureRedirect: '/login' }),
-// function(req, res) {
-//   res.redirect('/');
-//
-//     console.log(req.body);
-//     var mysql = require('mysql');
-//     var session = require('express-session');
-//     var MySQLStore = require('express-mysql-session')(session);
-//
-//     var options = {
-//       host: 'localhost',
-//       port: 3306,
-//       user: 'db_user',
-//       password: 'password',
-//       database: 'db_name'
-//     };
-//
-//     var connection = mysql.createConnection(options); // or mysql.createPool(options);
-//     var sessionStore = new MySQLStore({}/* session store options */, connection);
-//     res.render('login');
+    // function(req, res) {
+    //   res.redirect('/');
+    //
+    //     console.log(req.body);
+    //     var mysql = require('mysql');
+    //     var session = require('express-session');
+    //     var MySQLStore = require('express-mysql-session')(session);
+    //
+    //     var options = {
+    //       host: 'localhost',
+    //       port: 3306,
+    //       user: 'db_user',
+    //       password: 'password',
+    //       database: 'db_name'
+    //     };
+    //
+    //     var connection = mysql.createConnection(options); // or mysql.createPool(options);
+    //     var sessionStore = new MySQLStore({}/* session store options */, connection);
+    //     res.render('login');
   },
 
   getRegisterUserPage: (req, res) => {
-      res.render('register');
+    res.render('register');
   },
 
   postRegisterUser: (req, res) => {

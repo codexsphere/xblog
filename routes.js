@@ -13,15 +13,6 @@ var Admin = require('./controllers/admin.js');
 
 var UserService = require('./services/user.js');
 
-//fb login
-// router.get('/login/facebook/return', User.LoginFBReturn);
-// { id: '511684829221447',
-//   displayName: 'Ace Besmonte',
-//   name: {},
-//   provider: 'facebook',
-//   _raw: '{"name":"Ace Besmonte","id":"511684829221447"}',
-//   _json: { name: 'Ace Besmonte', id: '511684829221447' } }
-
 
 router.get('/v1/admin', Admin.getAdminIndex);
 router.get('/v1/admin/posts/new', Admin.getAdminNewPost);
@@ -29,13 +20,10 @@ router.get('/v1/admin/posts/new', Admin.getAdminNewPost);
 
 
 router.get('/', Main.getHomePage);
-router.get('/v1/login', User.getLoginPage);
+router.get('/login', User.getLoginPage);
 // router.post('/v1/login', User.postLogin);
-router.post('/v1/login', function(req, res, next) {
-  console.log(req.body);
-  next()
-},
-  passport.authenticate('local', { failureRedirect: '/error' }),
+router.post('/login',
+  passport.authenticate('local', { failureRedirect: '/loginfailure' }),
   function(req, res) {
     res.redirect('/');
   }
@@ -61,35 +49,42 @@ router.get('/profile',
 router.get('/v1/register', User.getRegisterUserPage);
 router.get('/v1/myprofile', User.getMyProfilePage);
 router.post('/v1/register', User.postRegisterUser);
-// router.get('/v1/login/facebook',  passport.authenticate('facebook'));
-// router.get('/v1/login/facebook/return',
-//   passport.authenticate('facebook', { failureRedirect: '/login' }),
-//   function(req, res) {
-//
-//     res.redirect('/');
+
+
+
+
+
+//fb login
+// router.get('/login/facebook/return', User.LoginFBReturn);
+// { id: '511684829221447',
+//   displayName: 'Ace Besmonte',
+//   name: {},
+//   provider: 'facebook',
+//   _raw: '{"name":"Ace Besmonte","id":"511684829221447"}',
+//   _json: { name: 'Ace Besmonte', id: '511684829221447' } }
+
+
+router.get('/login/facebook',  passport.authenticate('facebook'));
+router.get('/login/facebook/return',
+  passport.authenticate('facebook', { failureRedirect: '/loginfailure' }),
+  function(req, res) {
+
+    res.redirect('/');
+  });
+
+// router.get('/profile',
+//   require('connect-ensure-login').ensureLoggedIn(),
+//   function(req, res){
+//     console.log(req.user);
+//     res.render('profile', { user: req.user });
 //   });
 
 
 
 
-
-
-
-
-
-router.get('/profile',
-  require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    console.log(req.user);
-    res.render('profile', { user: req.user });
-  });
-
-
-
-
 router.get('/theme', Main.getTheme);
-router.get('/error', function(req, res){
-    res.render('error', { message: "error" , error:{status:"live", stack:"login failure"}});
+router.get('/loginfailure', function(req, res){
+    res.render('loginfailure', { message: "failed logging in" });
   });
 
 // router.LOGIN('/v1/users', User.createUser);

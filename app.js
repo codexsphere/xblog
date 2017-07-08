@@ -34,11 +34,18 @@ passport.use(new LocalStrategy(
     console.log("emailemailemailemail");
     console.log(username);
     console.log(password);
-    UserDB.findAll({where:{username:username}, raw : true})
+    UserDB.findOne({where:{username:username}, raw : true})
     .then((user) => {
-      console.log(user);
-      if (!user) { return done(null, false); }
-      if (!user[0].password == password) { return done(null, false);
+      console.log("user");
+      console.log(JSON.stringify(user));
+      if (user == []) {
+        console.log("empty empty");
+      }
+      if (!user || user == null || user == []) { return done(null, false); }
+      console.log("password");
+      console.log(password);
+
+      if (!user.password == password) { return done(null, false);
       log("not equal password")}
       return done(null, user[0])
     })
@@ -48,19 +55,19 @@ passport.use(new LocalStrategy(
   }
 ));
 
-// passport.use(new FBStrategy({
-//     clientID: process.env.CLIENT_ID || '242733366198823',
-//     clientSecret: process.env.CLIENT_SECRET || 'eb2e4ee348ed11134015c92143349f19',
-//     callbackURL: 'http://localhost:3000/login/facebook/return'
-//   },
-//   function(accessToken, refreshToken, profile, cb) {
-//     // In this example, the user's Facebook profile is supplied as the user
-//     // record.  In a production-quality application, the Facebook profile should
-//     // be associated with a user record in the application's database, which
-//     // allows for account linking and authentication with other identity
-//     // providers.
-//     return cb(null, profile);
-//   }));
+passport.use(new FBStrategy({
+    clientID: process.env.CLIENT_ID || '242733366198823',
+    clientSecret: process.env.CLIENT_SECRET || 'eb2e4ee348ed11134015c92143349f19',
+    callbackURL: 'http://localhost:7777/login/facebook/return'
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    // In this example, the user's Facebook profile is supplied as the user
+    // record.  In a production-quality application, the Facebook profile should
+    // be associated with a user record in the application's database, which
+    // allows for account linking and authentication with other identity
+    // providers.
+    return cb(null, profile);
+  }));
 
 
 // passport.serializeUser(function(user, cb) {
